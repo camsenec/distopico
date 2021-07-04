@@ -10,21 +10,18 @@ import (
 	"go.mongodb.org/mongo-driver/mongo/options"
 )
 
-type DB struct {
+type MongoDB struct {
 	session  *mongo.Client
 	messages *mongo.Collection
 }
 
-func connectDB() DB {
-	client, err := mongo.Connect(context.Background(), options.Client().ApplyURI("mongo://example"))
-
+func ConnectDB() MongoDB {
 	conf := config.ConfigModel{
-		Uri:         "<URI>",
-		Db:          "messages",
-		TokenSecret: "secret",
-		TokenExp:    "1h",
-		ServeUri:    ":4444",
+		Uri: "mongodb://172.17.0.2:27017",
+		Db:  "messages",
 	}
+
+	client, err := mongo.Connect(context.Background(), options.Client().ApplyURI(conf.Uri))
 
 	if err != nil {
 		log.Fatal(err)
@@ -35,14 +32,14 @@ func connectDB() DB {
 		log.Fatal(err)
 	}
 
-	return DB{
+	return MongoDB{
 		session:  client,
 		messages: client.Database(conf.Db).Collection("messages"),
 	}
 
 }
 
-func (db DB) closeDB() {
+func (db MongoDB) CloseDB() {
 	err := db.session.Disconnect(context.Background())
 	if err != nil {
 		log.Fatal(err)
