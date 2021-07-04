@@ -1,9 +1,11 @@
 package config
 
 type ConfigModel struct {
-	Uri         string
-	Db          string
-	TokenSecret string
-	TokenExp    string
-	ServeUri    string
+	Uri string
+	Db  string
+}
+
+var Conf = ConfigModel{
+	Uri: "mongodb://172.17.0.2:27017",
+	Db:  "messages",
 }

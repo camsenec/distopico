@@ -16,12 +16,7 @@ type MongoDB struct {
 }
 
 func ConnectDB() MongoDB {
-	conf := config.ConfigModel{
-		Uri: "mongodb://172.17.0.2:27017",
-		Db:  "messages",
-	}
-
-	client, err := mongo.Connect(context.Background(), options.Client().ApplyURI(conf.Uri))
+	client, err := mongo.Connect(context.Background(), options.Client().ApplyURI(config.Conf.Uri))
 
 	if err != nil {
 		log.Fatal(err)
@@ -34,7 +29,7 @@ func ConnectDB() MongoDB {
 
 	return MongoDB{
 		session:  client,
-		messages: client.Database(conf.Db).Collection("messages"),
+		messages: client.Database(config.Conf.Db).Collection("messages"),
 	}
 
 }
