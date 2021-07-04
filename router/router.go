@@ -1,16 +1,24 @@
 package router
 
 import (
+	"github.com/distopico/api"
+	"github.com/distopico/database"
 	"github.com/gin-gonic/gin"
 )
 
-func Create() {
+func Create(db *database.MongoDB) *gin.Engine {
 	g := gin.New()
-	g.Use(gin.Logger())
 
-	//message := g.Group("/message")
+	g.Use(gin.Logger(), gin.Recovery())
+
+	messageHandler := api.MessageAPI{DB: db}
+
+	message := g.Group("/message")
 	{
+		message.GET("", messageHandler.GetMessages)
+		message.GET("/:id", messageHandler.GetMessageByID)
 
 	}
 
+	return g
 }
