@@ -55,3 +55,18 @@ func (db *MongoDB) GetMessageById(id primitive.ObjectID) (interface{}, error) {
 	return result, nil
 
 }
+
+func (db *MongoDB) CreateMessage(message *model.MessageModel) (interface{}, error) {
+	var result interface{}
+	var err error
+
+	ctx, cancel := context.WithTimeout(context.Background(), 30*time.Second)
+	defer cancel()
+
+	result, err = db.messages.InsertOne(ctx, message)
+	if err != nil {
+		return nil, err
+	}
+
+	return result, nil
+}

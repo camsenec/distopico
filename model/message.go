@@ -8,7 +8,7 @@ import (
 
 type MessageModel struct {
 	ID          primitive.ObjectID `bson:"_id" json:"_id"`
-	Topic       string             `bson:"topic" json:"topic,omitempty"`
-	Description string             `bson:"description" json:"description,omitempty"`
-	CreatedDate time.Time          `bson:"createdDate,omitempty" json:"createdDate,omitempty"`
+	Topic       string             `bson:"topic,required" json:"topic,required" form:"topic"`
+	Description string             `bson:"description,required" json:"description,required" form:"description"`
+	CreatedDate time.Time          `bson:"createdDate,required" json:"createdDate,required"`
 }

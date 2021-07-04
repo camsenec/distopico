@@ -17,7 +17,7 @@ func Create(db *database.MongoDB) *gin.Engine {
 	{
 		message.GET("", messageHandler.GetMessages)
 		message.GET("/:id", messageHandler.GetMessageByID)
-
+		message.POST("", messageHandler.CreateMessage)
 	}
 
 	return g
